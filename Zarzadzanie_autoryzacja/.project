@@ -34,4 +34,16 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/resources/Wymagania i punktacja (1).pdf</name>
+			<type>1</type>
+			<location>D:/Informatyka/programowanie - cwiczenia/java/Wymagania i punktacja (1).pdf</location>
+		</link>
+		<link>
+			<name>src/main/resources/Zadanie zaliczeniowe 2 z bonusem.pdf</name>
+			<type>1</type>
+			<location>D:/Informatyka/programowanie - cwiczenia/java/Zadanie zaliczeniowe 2 z bonusem.pdf</location>
+		</link>
+	</linkedResources>
 </projectDescription>

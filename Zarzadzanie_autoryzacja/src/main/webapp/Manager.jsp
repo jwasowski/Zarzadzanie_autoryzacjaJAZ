@@ -4,12 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Index</title>
+<title>Manager</title>
 </head>
 <body>
-<form>
-  <button formaction="Login.jsp" formmethod="POST">Log in</button>
-  <button formaction="Register.jsp" formmethod="POST">Register</button>
-</form>
+
 </body>
 </html>
