@@ -7,9 +7,9 @@
 <title>Index</title>
 </head>
 <body>
-<form>
-  <button formaction="Login.jsp" formmethod="POST">Log in</button>
-  <button formaction="Register.jsp" formmethod="POST">Register</button>
+<form method="Post">
+  <input type="submit" name="login" value="Log in" formaction="Init" />
+  <input type="submit" name="register" value="Register" formaction="Init" />
 </form>
 </body>
 </html>

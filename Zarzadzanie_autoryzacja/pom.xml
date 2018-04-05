@@ -30,6 +30,11 @@
 			<artifactId>xmlworker</artifactId>
 			<version>5.5.13</version>
 		</dependency>
+		<dependency>
+	    <groupId>org.hsqldb</groupId>
+	    <artifactId>hsqldb</artifactId>
+	    <version>2.4.0</version>
+	</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -52,6 +57,9 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.3.7.v20160115</version>
+				<configuration>
+					<scanIntervalSeconds>2</scanIntervalSeconds>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
