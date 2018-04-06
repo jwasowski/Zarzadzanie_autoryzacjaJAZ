@@ -70,7 +70,7 @@ public class Register extends HttpServlet {
 				insert.setString(1, register.getUsername());
 				insert.setString(2, register.getPassword());
 				insert.setString(3, register.getEmail());
-				insert.setString(4, "ZWYKLY");
+				insert.setString(4, UserLevel.ZWYKLY.toString());
 				insert.executeUpdate();
 				connection.close();
 				insertIntoDb.close();

@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import domain.LoginObject;
 import domain.User;
@@ -29,6 +30,7 @@ public class Login extends HttpServlet {
 	private PreparedStatement selectAll;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+		HttpSession session = request.getSession();
 		String name = request.getParameter("Username");
 		String password = request.getParameter("Password");
 		String selectCheckUser = "SELECT * FROM USERS WHERE USERNAME=? AND PASSWORD=?";
@@ -58,8 +60,12 @@ public class Login extends HttpServlet {
 			connection.close();
 			response.setContentType("text/html");
 			if (!result.isEmpty()) {
+				session.setAttribute("user", userLoggingIn.getUsername());
+				session.setAttribute("level", result.get(0).getLevel());
 				response.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-						+ "\"3; url=/userprofile\">Zalogowales sie, za 3 sekundy zostaniesz przekierowany do podgladu swojego profilu.");
+						+ "\"3; url=/userprofile\"><form method=\"post\"></form>Zalogowales sie, za 3 sekundy zostaniesz przekierowany do podgladu swojego profilu.");
+				
+	
 			} else {
 				response.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
 						+ "\"3; url=/Login.jsp\">Niepoprawny login albo haslo, za 3 sekundy zostaniesz przekierowany do ekranu logowania.");
