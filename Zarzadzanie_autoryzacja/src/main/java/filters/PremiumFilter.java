@@ -29,16 +29,19 @@ public class PremiumFilter implements Filter {
 			throws IOException, ServletException {
 
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
-		if (!session.getAttribute("level").equals(UserLevel.PREMIUM.toString())
-				&& !session.getAttribute("level").equals(UserLevel.ADMIN.toString())) {
+
+		System.out.print(session.getAttribute("level"));
+		if (session.getAttribute("level") == null || (!session.getAttribute("level").equals(UserLevel.PREMIUM.toString())
+				&& !session.getAttribute("level").equals(UserLevel.ADMIN.toString()))) {
 
 			HttpServletResponse resp = (HttpServletResponse) response;
-			resp.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-					+ "\"3; url=/userprofile\">Brak wykupionego pakietu PREMIUM, wykup PREMIUM, aby uzyskac dostep.");
-		}
+			/*resp.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
+					+ "\"3; url=/userprofile\">Brak wykupionego pakietu PREMIUM, wykup PREMIUM, aby uzyskac dostep.");*/
+			resp.sendRedirect("/userprofile");
+			
+		} 
 
 		chain.doFilter(request, response);
-
 	}
 
 	@Override

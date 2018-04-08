@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-PREMIUM WOW WOW, SO PREMIUM
+<textarea rows="20" cols="20">PREMIUM WOW WOW, SO PREMIUM</textarea>
 </body>
 </html>

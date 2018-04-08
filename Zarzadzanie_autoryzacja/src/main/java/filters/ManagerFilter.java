@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import servlets.UserLevel;
-@WebFilter("/Manager.jsp")
+@WebFilter({"/Manager.jsp","/users"})
 public class ManagerFilter implements Filter {
 
 	@Override
@@ -28,11 +28,13 @@ public class ManagerFilter implements Filter {
 			throws IOException, ServletException {
 
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
-		if (!session.getAttribute("level").equals(UserLevel.ADMIN.toString())) {
+		if (session.getAttribute("level") == null || !session.getAttribute("level").equals(UserLevel.ADMIN.toString())) {
 			HttpServletResponse resp = (HttpServletResponse) response;
-			resp.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-					+ "\"3; url=/userprofile\">Brak uprawnien, automatyczne przekierowanie za 3 sekundy.");
+			/*resp.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
+					+ "\"3; url=/userprofile\">Brak uprawnien, automatyczne przekierowanie za 3 sekundy.");*/
+			resp.sendRedirect("/userprofile");
 		}
+		chain.doFilter(request, response);
 
 	}
 

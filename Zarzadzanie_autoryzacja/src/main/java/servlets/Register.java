@@ -97,5 +97,9 @@ public class Register extends HttpServlet {
 		r.setEmail(e);
 		return r;
 	}
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		response.sendRedirect("/Register.jsp");
+		
+	}
 }

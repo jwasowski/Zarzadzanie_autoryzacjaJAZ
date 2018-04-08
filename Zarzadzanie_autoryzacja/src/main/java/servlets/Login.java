@@ -63,7 +63,7 @@ public class Login extends HttpServlet {
 				session.setAttribute("user", userLoggingIn.getUsername());
 				session.setAttribute("level", result.get(0).getLevel());
 				response.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-						+ "\"3; url=/userprofile\"><form method=\"post\"></form>Zalogowales sie, za 3 sekundy zostaniesz przekierowany do podgladu swojego profilu.");
+						+ "\"3; url=/userprofile\"></form>Zalogowales sie, za 3 sekundy zostaniesz przekierowany do podgladu swojego profilu.");
 				
 	
 			} else {
@@ -77,5 +77,10 @@ public class Login extends HttpServlet {
 					+ "\"3; url=/Login.jsp\">Niepoprawny login albo haslo, za 3 sekundy zostaniesz przekierowany do ekranu logowania.");
 		}
 
+	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		response.sendRedirect("/Login.jsp");
+		
 	}
 }

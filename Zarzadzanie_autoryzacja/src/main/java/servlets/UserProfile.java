@@ -36,7 +36,7 @@ public class UserProfile extends HttpServlet {
 		}
 		printResponse+="</form></body></html>";
 		response.setContentType("text/html");
-		System.out.println(printResponse);
+		//System.out.println(printResponse);
 		response.getWriter().print(printResponse);
 	}
 

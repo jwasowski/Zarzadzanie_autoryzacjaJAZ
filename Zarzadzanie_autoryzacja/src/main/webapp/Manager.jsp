@@ -7,13 +7,15 @@
 <title>Manager</title>
 </head>
 <body>
-	<form method="post">
+	<form method="get">
 		Username <input type="text" name="Username"> <select><option
-				value="zwykly">Zykly</option>
+				value="zwykly">Zwykly</option>
 			<option value="premium">Premium</option>
 			<option value="admin">Admin</option></select> <input type="submit"
 			value="Submit" formaction="manager"> <input type="reset" />
 			<input type="submit" name="users" value="List Users" formaction="users" />
+			<input type="submit" name="goback" value="Go back" formaction="userprofile" />
 	</form>
+	<p>${returnHtml}</p>
 </body>
 </html>
