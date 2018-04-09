@@ -3,6 +3,7 @@ package domain;
 public class RegistrationObject {
 	private String username;
 	private String password;
+	private String conPassword;
 	private String email;
 
 	public String getUsername() {
@@ -27,5 +28,13 @@ public class RegistrationObject {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getConPassword() {
+		return conPassword;
+	}
+
+	public void setConPassword(String conPassword) {
+		this.conPassword = conPassword;
 	}
 }

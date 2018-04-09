@@ -13,49 +13,61 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import services.CommonMethods;
+
 @WebServlet("/manager")
 public class ManagerServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private PreparedStatement updateUsers;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String username = request.getParameter("Username");
-		
 		String level = request.getParameter("level");
-		String url = "jdbc:hsqldb:hsql://localhost/workdb";
-		String updateSql = "UPDATE USERS SET LEVEL=? WHERE USERNAME=?";
-
-		String dbError = "Blad serwera bazy danych - Blad managera (skontaktuj sie z pomoca techniczna)";
-		String managerSuccess = "Dokonano zmiany uprawnien uzytkownika.";
-
-		if (username == null || username.equals("")) {
-			response.sendRedirect("/Manager.jsp");
-		}
+		PreparedStatement updateUsers = null;
+		Connection connection = null;
+		Statement checkUser = null;
+		checkFormFieldsForNulls(username, response);
 		try {
-			Connection connection = DriverManager.getConnection(url);
-			Statement checkUser = connection.createStatement();
-			updateUsers = connection.prepareStatement(updateSql);
-			updateUsers.setString(1, level);
-			updateUsers.setString(2, username);
-
-			updateUsers.executeUpdate();
-			checkUser.close();
-			connection.close();
+			updateUsersSetupAndExec(connection, CommonMethods.url(), checkUser, updateUsers, updateSql(), level,
+					username);
 			response.setContentType("text/html");
-
-			request.setAttribute("managerSuccess", managerSuccess);
+			request.setAttribute("managerSuccess", managerSuccess());
 			request.getRequestDispatcher("/Manager.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			request.setAttribute("dbError", dbError);
+			request.setAttribute("dbError", dbError());
 			request.getRequestDispatcher("/Manager.jsp").forward(request, response);
 		}
 
+	}
+
+	private void checkFormFieldsForNulls(String username, HttpServletResponse response) throws IOException {
+		if (username == null || username.equals("")) {
+			response.sendRedirect("/Login.jsp");
+		}
+	}
+
+	private void updateUsersSetupAndExec(Connection con, String url, Statement statement, PreparedStatement preState,
+			String sql, String level, String username) throws SQLException {
+		con = DriverManager.getConnection(url);
+		statement = con.createStatement();
+		preState = con.prepareStatement(sql);
+		preState.setString(1, level);
+		preState.setString(2, username);
+		preState.executeUpdate();
+	}
+
+	private String updateSql() {
+		return "UPDATE USERS SET LEVEL=? WHERE USERNAME=?";
+	}
+
+	private String dbError() {
+		return "Blad serwera bazy danych - Blad managera (skontaktuj sie z pomoca techniczna)";
+	}
+
+	private String managerSuccess() {
+		return "Dokonano zmiany uprawnien uzytkownika.";
 	}
 }

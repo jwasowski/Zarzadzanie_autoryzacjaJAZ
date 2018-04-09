@@ -30,8 +30,6 @@ public class ManagerFilter implements Filter {
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
 		if (session.getAttribute("level") == null || !session.getAttribute("level").equals(UserLevel.ADMIN.toString())) {
 			HttpServletResponse resp = (HttpServletResponse) response;
-			/*resp.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-					+ "\"3; url=/userprofile\">Brak uprawnien, automatyczne przekierowanie za 3 sekundy.");*/
 			resp.sendRedirect("/userprofile");
 		}
 		chain.doFilter(request, response);

@@ -14,7 +14,7 @@
  <input type="submit" value="Submit">
     <input type="reset"/>
     </form>
-    <p>${wrongLogin}</p>
+    <p>${wrongLoginOrPassword}</p>
     <p>${dbError}</p>
 </body>
 </html>
