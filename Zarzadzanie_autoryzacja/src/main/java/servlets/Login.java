@@ -28,6 +28,7 @@ public class Login extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private PreparedStatement selectAll;
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		HttpSession session = request.getSession();
@@ -35,6 +36,9 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("Password");
 		String selectCheckUser = "SELECT * FROM USERS WHERE USERNAME=? AND PASSWORD=?";
 		ResultSetMapper mapper = new ResultSetMapper();
+		String wrongLogin = "Niepoprawny login albo haslo";
+		String dbError = "Blad serwera bazy danych (skontaktuj sie z pomoca techniczna)";
+
 		if (name == null || name.equals("") || password == null || password.equals("")) {
 			response.sendRedirect("/Login.jsp");
 		}
@@ -64,23 +68,24 @@ public class Login extends HttpServlet {
 				session.setAttribute("level", result.get(0).getLevel());
 				response.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
 						+ "\"3; url=/userprofile\"></form>Zalogowales sie, za 3 sekundy zostaniesz przekierowany do podgladu swojego profilu.");
-				
-	
+
 			} else {
-				response.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-						+ "\"3; url=/Login.jsp\">Niepoprawny login albo haslo, za 3 sekundy zostaniesz przekierowany do ekranu logowania.");
+				request.setAttribute("wrongLogin", wrongLogin);
+				request.getRequestDispatcher("/Login.jsp").forward(request, response);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			response.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-					+ "\"3; url=/Login.jsp\">Niepoprawny login albo haslo, za 3 sekundy zostaniesz przekierowany do ekranu logowania.");
+
+			request.setAttribute("dbError", dbError);
+			request.getRequestDispatcher("/Login.jsp").forward(request, response);
 		}
 
 	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		response.sendRedirect("/Login.jsp");
-		
+
 	}
 }

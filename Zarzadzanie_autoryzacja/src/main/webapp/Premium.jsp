@@ -8,5 +8,8 @@
 </head>
 <body>
 <textarea rows="20" cols="20">PREMIUM WOW WOW, SO PREMIUM</textarea>
+<form method="get">
+<input type="submit" name="goback" value="Go back" formaction="userprofile" />
+</form>
 </body>
 </html>

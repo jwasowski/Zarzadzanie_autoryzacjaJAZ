@@ -8,14 +8,16 @@
 </head>
 <body>
 	<form method="get">
-		Username <input type="text" name="Username"> <select><option
-				value="zwykly">Zwykly</option>
-			<option value="premium">Premium</option>
-			<option value="admin">Admin</option></select> <input type="submit"
+		Username <input type="text" name="Username"> <select id="level" name="level">
+			<option value="ZWYKLY">Zwykly</option>
+			<option value="PREMIUM">Premium</option>
+			<option value="ADMIN">Admin</option></select> <input type="submit"
 			value="Submit" formaction="manager"> <input type="reset" />
 			<input type="submit" name="users" value="List Users" formaction="users" />
 			<input type="submit" name="goback" value="Go back" formaction="userprofile" />
 	</form>
+	<p>${managerSuccess}</p>
 	<p>${returnHtml}</p>
+	<p>${dbError}</p>
 </body>
 </html>

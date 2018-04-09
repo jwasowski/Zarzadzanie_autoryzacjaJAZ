@@ -40,6 +40,9 @@ public class Register extends HttpServlet {
 		ResultSetMapper mapper = new ResultSetMapper();
 		String selectCheckUserSql = "SELECT * FROM USERS WHERE USERNAME=? OR EMAIL=?";
 		String insertSql = "INSERT INTO USERS (USERNAME, PASSWORD, EMAIL, LEVEL) VALUES (?,?,?,?)";
+		String regError = "Login lub mail zajety";
+		String regComplete = "Zarejestrowales sie pomyslnie.";
+		String dbError = "Blad serwera bazy danych (skontaktuj sie z pomoca techniczna)";
 
 		if (name == null || name.equals("") || password == null || password.equals("") || conpassword == null
 				|| conpassword.equals("") || email == null || email.equals("") || !conpassword.equals(password)) {
@@ -59,12 +62,14 @@ public class Register extends HttpServlet {
 			while (rs.next()) {
 				result.add(mapper.map(rs));
 			}
+			
 			checkUser.close();
-			connection.close();
+			
+			//connection.close();
 			response.setContentType("text/html");
 			if (result.isEmpty()) {
 				// wpisac do bazy
-				connection = DriverManager.getConnection(url);
+				//connection = DriverManager.getConnection(url);
 				Statement insertIntoDb = connection.createStatement();
 				insert = connection.prepareStatement(insertSql);
 				insert.setString(1, register.getUsername());
@@ -74,18 +79,19 @@ public class Register extends HttpServlet {
 				insert.executeUpdate();
 				connection.close();
 				insertIntoDb.close();
-				response.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-						+ "\"3; url=/Login.jsp\">Zarejestrowales sie, za 3 sekundy przekieruje Cie automatycznie do strony logowania.");
+				request.setAttribute("regComplete", regComplete);
+				request.getRequestDispatcher("/Register.jsp").forward(request, response);
 			} else {
-				response.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-						+ "\"3; url=/Register.jsp\">Login lub mail zajety, za 3 sekundy przekieruje Cie automatycznie do strony rejestracji.");
+
+				request.setAttribute("regError", regError);
+				request.getRequestDispatcher("/Register.jsp").forward(request, response);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			response.getWriter().print("<meta http-equiv=" + "\"refresh\"" + "content="
-					+ "\"3; url=/Register.jsp\">Blad rejestracji, za 3 sekundy przekieruje Cie automatycznie do strony rejestracji.");
 
+			request.setAttribute("dbError", dbError);
+			request.getRequestDispatcher("/Register.jsp").forward(request, response);
 		}
 
 	}
@@ -97,9 +103,10 @@ public class Register extends HttpServlet {
 		r.setEmail(e);
 		return r;
 	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		response.sendRedirect("/Register.jsp");
-		
+
 	}
 }

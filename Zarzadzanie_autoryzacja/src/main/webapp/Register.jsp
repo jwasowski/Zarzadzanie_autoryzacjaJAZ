@@ -16,7 +16,11 @@
    Email:<br>
     <input type="text" name="Email"><br>
     <input type="submit" value="Submit">
-    <input type="reset"/>
+    <input type="reset"/><br>
+    <input type="submit" name="login" value="Log in" formaction="/Login.jsp" />
     </form>
+    <p>${regComplete}</p>
+    <p>${regError}</p>
+    <p>${dbError}</p>
 </body>
 </html>

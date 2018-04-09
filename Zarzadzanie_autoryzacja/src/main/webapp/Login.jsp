@@ -13,6 +13,8 @@
   <input type="text" name="Password"><br>
  <input type="submit" value="Submit">
     <input type="reset"/>
-    </form> 
+    </form>
+    <p>${wrongLogin}</p>
+    <p>${dbError}</p>
 </body>
 </html>

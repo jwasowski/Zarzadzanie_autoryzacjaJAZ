@@ -33,6 +33,7 @@ public class Users extends HttpServlet {
 		String selectUsersSql = "SELECT * FROM USERS";
 		ResultSetMapper mapper = new ResultSetMapper();
 		String returnHtml = "";
+		String dbError = "Blad serwera bazy danych - Blad listy uzytkownikow (skontaktuj sie z pomoca techniczna)";
 
 		try {
 			Connection connection = DriverManager.getConnection(url);
@@ -47,12 +48,11 @@ public class Users extends HttpServlet {
 			printUsers.close();
 			connection.close();
 			returnHtml += "<html><head><style>table, th, td {border: 1px solid black;}</style><meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"><title>List of Users</title></head><body>"
-					/*+ "<form method=\"Post\"><input type=\"submit\" name=\"back\" value=\"Go Back\" formaction=\"Manager.jsp\" /></form>"*/
 					+ "<table><tr><th>Username</th><th>Premium</th></tr>";
 			for (int i = 0; i < result.size(); i++) {
 				int szer = 2;
 				returnHtml += "<tr>";
-				for (int j = 0; j < 2; j++) {
+				for (int j = 0; j < szer; j++) {
 					switch (j) {
 					case 0:
 						returnHtml += "<td>" + result.get(i).getUsername() + "</td>";
@@ -69,16 +69,19 @@ public class Users extends HttpServlet {
 			returnHtml += "</table></body></html>";
 		} catch (SQLException e) {
 			e.printStackTrace();
+			request.setAttribute("dbError", dbError);
+			request.getRequestDispatcher("/Manager.jsp").forward(request, response);
 		}
 		response.setContentType("text/html");
-		request.setAttribute("returnHtml", returnHtml); 
-	    request.getRequestDispatcher("/Manager.jsp").forward(request, response);
+		request.setAttribute("returnHtml", returnHtml);
+		request.getRequestDispatcher("/Manager.jsp").forward(request, response);
 	}
-	private String isPremium(String a){
-		if(!a.equals(UserLevel.PREMIUM.toString()) && !a.equals(UserLevel.ADMIN.toString())){
-			return a="No";
+
+	private String isPremium(String a) {
+		if (!a.equals(UserLevel.PREMIUM.toString()) && !a.equals(UserLevel.ADMIN.toString())) {
+			return a = "No";
 		}
-		return a="Yes";
+		return a = "Yes";
 	}
-	
+
 }
