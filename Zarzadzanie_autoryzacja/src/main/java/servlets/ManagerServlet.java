@@ -29,7 +29,7 @@ public class ManagerServlet extends HttpServlet {
 		Statement checkUser = null;
 		checkFormFieldsForNulls(username, response);
 		try {
-			updateUsersSetupAndExec(connection, CommonMethods.url(), checkUser, updateUsers, updateSql(), level,
+			updateUsers = updateUsersSetupAndExec(connection, CommonMethods.url(), checkUser, updateUsers, updateSql(), level,
 					username);
 			response.setContentType("text/html");
 			request.setAttribute("managerSuccess", managerSuccess());
@@ -39,6 +39,12 @@ public class ManagerServlet extends HttpServlet {
 			e.printStackTrace();
 			request.setAttribute("dbError", dbError());
 			request.getRequestDispatcher("/Manager.jsp").forward(request, response);
+		}finally {
+			try {
+				closeResource(connection, checkUser);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -49,7 +55,7 @@ public class ManagerServlet extends HttpServlet {
 		}
 	}
 
-	private void updateUsersSetupAndExec(Connection con, String url, Statement statement, PreparedStatement preState,
+	private PreparedStatement updateUsersSetupAndExec(Connection con, String url, Statement statement, PreparedStatement preState,
 			String sql, String level, String username) throws SQLException {
 		con = DriverManager.getConnection(url);
 		statement = con.createStatement();
@@ -57,6 +63,7 @@ public class ManagerServlet extends HttpServlet {
 		preState.setString(1, level);
 		preState.setString(2, username);
 		preState.executeUpdate();
+		return preState;
 	}
 
 	private String updateSql() {
@@ -69,5 +76,12 @@ public class ManagerServlet extends HttpServlet {
 
 	private String managerSuccess() {
 		return "Dokonano zmiany uprawnien uzytkownika.";
+	}
+
+	private void closeResource(Connection con, Statement statement) throws SQLException {
+		if (con != null)
+			con.close();
+		if (statement != null)
+			statement.close();
 	}
 }
