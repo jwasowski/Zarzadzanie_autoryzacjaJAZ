@@ -23,11 +23,12 @@ public class UserProfile extends HttpServlet {
 		printResponse += "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"><title>User Profile</title></head><body>";
 		printResponse += "Username: " + name.toString() + "<br>Account level: " + level.toString()
 				+ "<form method=\"Post\"><input type=\"submit\" name=\"logout\" value=\"Log Out\" formaction=\"logout\" />";
-		createPremiumAccessButton(level, printResponse);
-		createManagerAccessButton(level, printResponse);
+		
+		printResponse = createPremiumAccessButton(level, printResponse);
+		printResponse = createManagerAccessButton(level, printResponse);
 		printResponse += "</form></body></html>";
 		response.setContentType("text/html");
-
+		System.out.print(printResponse);
 		response.getWriter().print(printResponse);
 	}
 
